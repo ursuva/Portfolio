@@ -15,8 +15,8 @@ export default function Portfolio() {
   const [heroVisible, setHeroVisible] = useState(false);
   const [aboutVisible, setAboutVisible] = useState(false);
   
-  const heroRef = useRef(null);
-  const aboutRef = useRef(null);
+  const heroRef = heroRef.current;
+  const aboutRef = aboutRef.current;
   
   const heroFullText = "Crafting robust, scalable applications from concept to deployment. Passionate about clean code, innovative solutions, and pushing the boundaries of what's possible.";
   const aboutFullText = "Final-year B.Tech student specializing in Full-Stack Development with hands-on experience in the MERN stack. I have built interactive dashboards, data-driven applications, and secure backend systems with authentication and role-based access control.";
