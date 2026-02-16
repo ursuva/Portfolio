@@ -15,49 +15,42 @@ export default function Portfolio() {
   const [heroVisible, setHeroVisible] = useState(false);
   const [aboutVisible, setAboutVisible] = useState(false);
   
-  const heroRef = heroRef.current;
-  const aboutRef = aboutRef.current;
+  const heroRef =  useRef(null);
+  const aboutRef =  useRef(null);
   
   const heroFullText = "Crafting robust, scalable applications from concept to deployment. Passionate about clean code, innovative solutions, and pushing the boundaries of what's possible.";
   const aboutFullText = "Final-year B.Tech student specializing in Full-Stack Development with hands-on experience in the MERN stack. I have built interactive dashboards, data-driven applications, and secure backend systems with authentication and role-based access control.";
+useEffect(() => {
+  const heroEl = heroRef.current;
+  const aboutEl = aboutRef.current;
 
-  useEffect(() => {
-    // Intersection Observer for hero section
-    const heroObserver = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !heroVisible) {
-          setHeroVisible(true);
-        }
-      },
-      { threshold: 0.3, rootMargin: '0px 0px -100px 0px' } // Triggers when 30% visible, with 100px bottom margin
-    );
-
-    // Intersection Observer for about section
-    const aboutObserver = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !aboutVisible) {
-          setAboutVisible(true);
-        }
-      },
-      { threshold: 0.3, rootMargin: '0px 0px -100px 0px' } // Triggers when 30% visible, with 100px bottom margin
-    );
-
-    if (heroRef.current) {
-      heroObserver.observe(heroRef.current);
-    }
-    if (aboutRef.current) {
-      aboutObserver.observe(aboutRef.current);
-    }
-
-    return () => {
-      if (heroRef.current) {
-        heroObserver.unobserve(heroRef.current);
+  const heroObserver = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        setHeroVisible(true);
       }
-      if (aboutRef.current) {
-        aboutObserver.unobserve(aboutRef.current);
+    },
+    { threshold: 0.3, rootMargin: '0px 0px -100px 0px' }
+  );
+
+  const aboutObserver = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        setAboutVisible(true);
       }
-    };
-  }, []);
+    },
+    { threshold: 0.3, rootMargin: '0px 0px -100px 0px' }
+  );
+
+  if (heroEl) heroObserver.observe(heroEl);
+  if (aboutEl) aboutObserver.observe(aboutEl);
+
+  return () => {
+    if (heroEl) heroObserver.unobserve(heroEl);
+    if (aboutEl) aboutObserver.unobserve(aboutEl);
+  };
+}, []);   // ← keep empty
+
 
   // Typewriter effect for hero description
   useEffect(() => {
